@@ -44,34 +44,39 @@ function M.base64_encode()
 	local mode = vim.api.nvim_get_mode().mode
 	-- \22 represents CTRL-V in ASCII
 	if mode == "v" or mode == "V" or mode == "\22" then
-		return M.base64_encode_operator("visual")
+		M.base64_encode_operator("visual")
+		return vim.api.nvim_input("<Esc>")
 	end
 	vim.o.opfunc = "v:lua.encoding.base64_encode_operator"
-	return "g@"
+
+	return vim.api.nvim_input("g@")
 end
 function M.base64_decode()
 	local mode = vim.api.nvim_get_mode().mode
 	if mode == "v" or mode == "V" or mode == "\22" then
-		return M.base64_decode_operator("visual")
+		M.base64_decode_operator("visual")
+		return vim.api.nvim_input("<Esc>")
 	end
 	vim.o.opfunc = "v:lua.encoding.base64_decode_operator"
-	return "g@"
+	return vim.api.nvim_input("g@")
 end
 function M.uri_decode()
 	local mode = vim.api.nvim_get_mode().mode
 	if mode == "v" or mode == "V" or mode == "\22" then
-		return M.uri_decode_operator("visual")
+		M.uri_decode_operator("visual")
+		return vim.api.nvim_input("<Esc>")
 	end
 	vim.o.opfunc = "v:lua.encoding.uri_decode_operator"
-	return "g@"
+	return vim.api.nvim_input("g@")
 end
 function M.uri_encode()
 	local mode = vim.api.nvim_get_mode().mode
 	if mode == "v" or mode == "V" or mode == "\22" then
-		return M.uri_encode_operator("visual")
+		M.uri_encode_operator("visual")
+		return vim.api.nvim_input("<Esc>")
 	end
 	vim.o.opfunc = "v:lua.encoding.uri_encode_operator"
-	return "g@"
+	return vim.api.nvim_input("g@")
 end
 ---@param mode "visual"|nil
 function M.base64_encode_operator(mode)
@@ -84,7 +89,6 @@ function M.base64_encode_operator(mode)
 	local encoded = vim.base64.encode(text)
 
 	vim.api.nvim_buf_set_text(0, start_row - 1, start_col - 1, end_row - 1, end_col, { encoded })
-	vim.api.nvim_input("<Esc>")
 end
 ---@param mode "visual"|nil
 function M.base64_decode_operator(mode)
@@ -97,7 +101,6 @@ function M.base64_decode_operator(mode)
 	local decoded = vim.base64.decode(text)
 
 	vim.api.nvim_buf_set_text(0, start_row - 1, start_col - 1, end_row - 1, end_col, { decoded })
-	vim.api.nvim_input("<Esc>")
 end
 ---@param mode "visual"|nil
 function M.uri_encode_operator(mode)
@@ -110,7 +113,6 @@ function M.uri_encode_operator(mode)
 	local encoded = vim.uri_encode(text, "rfc3986")
 
 	vim.api.nvim_buf_set_text(0, start_row - 1, start_col - 1, end_row - 1, end_col, { encoded })
-	vim.api.nvim_input("<Esc>")
 end
 ---@param mode "visual"|nil
 function M.uri_decode_operator(mode)
@@ -123,7 +125,6 @@ function M.uri_decode_operator(mode)
 	local decoded = vim.uri_decode(text)
 
 	vim.api.nvim_buf_set_text(0, start_row - 1, start_col - 1, end_row - 1, end_col, { decoded })
-	vim.api.nvim_input("<Esc>")
 end
 
 return M
