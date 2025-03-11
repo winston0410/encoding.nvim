@@ -41,28 +41,33 @@ local function select_area_for_operator(mode)
 end
 
 function M.base64_encode()
-	if true then
+	local mode = vim.api.nvim_get_mode().mode
+	-- \22 represents CTRL-V in ASCII
+	if mode == "v" or mode == "V" or mode == "\22" then
 		return M.base64_encode_operator("visual")
 	end
 	vim.o.opfunc = "v:lua.encoding.base64_encode_operator"
 	return "g@"
 end
 function M.base64_decode()
-	if true then
+	local mode = vim.api.nvim_get_mode().mode
+	if mode == "v" or mode == "V" or mode == "\22" then
 		return M.base64_decode_operator("visual")
 	end
 	vim.o.opfunc = "v:lua.encoding.base64_decode_operator"
 	return "g@"
 end
 function M.uri_decode()
-	if true then
+	local mode = vim.api.nvim_get_mode().mode
+	if mode == "v" or mode == "V" or mode == "\22" then
 		return M.uri_decode_operator("visual")
 	end
 	vim.o.opfunc = "v:lua.encoding.uri_decode_operator"
 	return "g@"
 end
 function M.uri_encode()
-	if true then
+	local mode = vim.api.nvim_get_mode().mode
+	if mode == "v" or mode == "V" or mode == "\22" then
 		return M.uri_encode_operator("visual")
 	end
 	vim.o.opfunc = "v:lua.encoding.uri_encode_operator"
